@@ -68,8 +68,8 @@ public class TaskController {
 //    }
 
 
-    //    @PreAuthorize("hasAuthority('Tester')")
-    @PreAuthorize("hasRole('Tester')")
+        @PreAuthorize("hasAuthority('developer')")
+//    @PreAuthorize("hasRole('Tester')")
 
     @GetMapping("/{id}")
     public Task getTaskById(@PathVariable int id) {

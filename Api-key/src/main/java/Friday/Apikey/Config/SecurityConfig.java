@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,32 +30,16 @@ public class SecurityConfig {
 
         return new UserInfoUserDetailsService();
     }
-
-//        @Bean
-//        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//            return http.csrf().disable()
-//                    .authorizeHttpRequests()
-//                    .requestMatchers("/new").permitAll()
-//                    .and()
-//                    .authorizeHttpRequests().requestMatchers("/new/**")
-//                    .authenticated().and().formLogin().and().build();
-//        }
-
+    
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http ) throws Exception {
-        return http.csrf().disable()
-                .authorizeRequests()
-                .requestMatchers("/add").permitAll()
-//                .requestMatchers("/auth").permitAll()
-                .and()
-                .authorizeRequests().requestMatchers("/add/**")
-                .authenticated().and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.csrf().disable()
+                .authorizeRequests().requestMatchers("/add").permitAll()
+                .anyRequest().authenticated().and()
                 .authenticationProvider(authenticationProvider())
-//                    .addFilterBefore( UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .httpBasic(Customizer.withDefaults());
+        return httpSecurity.build();
     }
 
 
