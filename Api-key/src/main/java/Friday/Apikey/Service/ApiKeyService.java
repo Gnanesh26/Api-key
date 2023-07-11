@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 public class ApiKeyService {
 
 
-    // assume the API key is valid if it matches a hardcoded value
 
     private static final String VALID_API_KEY = "hu90Y09j88tXfwfsScTpBgCljEJJNoOKA8q0XmiE6aQMTtbz0TbmBRX3Q9Z0e90D";
 

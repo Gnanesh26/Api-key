@@ -6,12 +6,14 @@ import Friday.Apikey.Repository.TaskRepository;
 import Friday.Apikey.Repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Profile("!dev")
 public class TaskService {
 
 
@@ -45,13 +47,6 @@ public class TaskService {
         return taskRepository.findById(id).orElse(null);
     }
 
-    public Task saveTask(Task task) {
-        return taskRepository.save(task);
-    }
-
-    public void deleteTask(int id) {
-        taskRepository.deleteById(id);
-    }
 
 
 

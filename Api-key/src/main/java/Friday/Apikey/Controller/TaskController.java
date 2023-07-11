@@ -6,6 +6,7 @@ import Friday.Apikey.Entity.UserInfo;
 import Friday.Apikey.Service.ApiKeyService;
 import Friday.Apikey.Service.TaskService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -15,30 +16,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@RestController
-//public class TaskController {
-//    private final TaskService taskService;
-//
-//    @Autowired
-//    public TaskController(TaskService taskService) {
-//        this.taskService = taskService;
-//    }
-//
-//
-//    @GetMapping("/tasks")
-//    public List<Task> getAllTasks() {
-//        return taskService.getAllTasks();
-//    }
-//
-//    @GetMapping("/{id}")
-//    public Task getTaskById(@PathVariable int id) {
-//        return taskService.getTaskById(id);
-//
-//    }
 
+//@RestController
 @RestController
-//@RequestMapping("/tasks")
+@Slf4j
 public class TaskController {
+
+//public class TaskController {
     @Autowired
     private TaskService taskService;
     private final ApiKeyService apiKeyService;
@@ -48,7 +32,7 @@ public class TaskController {
         this.taskService = taskService;
         this.apiKeyService = apiKeyService;
     }
-
+    @PreAuthorize(" hasAuthority('developer')")
     @GetMapping("/tasks")
     public List<Task> getAllTasks(HttpServletRequest request) {
         String apiKey = request.getHeader("API-Key");
@@ -58,19 +42,9 @@ public class TaskController {
         return taskService.getAllTasks();
     }
 
-//    @GetMapping("/{id}")
-//    public Task getTaskById(@PathVariable int id, HttpServletRequest request) {
-//        String apiKey = request.getHeader("API-Key");
-//        if (apiKey == null || !apiKeyService.isValidApiKey(apiKey)) {
-//            throw new UnauthorizedException("Invalid API key");
-//        }
-//        return taskService.getTaskById(id);
-//    }
 
 
-        @PreAuthorize("hasAuthority('developer')")
-//    @PreAuthorize("hasRole('Tester')")
-
+    @PreAuthorize("hasAuthority('support')")
     @GetMapping("/{id}")
     public Task getTaskById(@PathVariable int id) {
         return taskService.getTaskById(id);
